@@ -1,3 +1,4 @@
+import React from 'react';
 const Card = ({ image, title, description }) => (
   <div
     className="flex flex-col items-start gap-10 w-[300px] h-full bg-[#e2e5f6] shadow-[2.77px_6.92px_10.75px_2.77px_rgba(107,112,218,0.1)] rounded-t-[10px] rounded-b-[25px] relative overflow-hidden transition-all duration-75 hover:scale-101"

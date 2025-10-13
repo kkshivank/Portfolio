@@ -97,12 +97,12 @@ const SkillsSection = () => {
                 {group.items.map((item) => (
                   <div
                     key={item.label}
-                    className="flex flex-col items-center w-[80px]"
+                    className="flex flex-col items-center w-[80px] hover:drop-shadow-[0_2px_5px_rgba(107,112,218,0.6)] transition-all duration-75 hover:scale-101"
                   >
                     <img
                       src={item.icon}
                       alt={item.label}
-                      className="object-contain mb-1 w-[60px] h-[60px] hover:drop-shadow-[0_2px_5px_rgba(107,112,218,0.6)] transition-all duration-75 hover:scale-101"
+                      className="object-contain mb-1 w-[60px] h-[60px] "
                     />
                     <span className="text-subtext text-primary text-center text-sm">
                       {item.label}
@@ -128,12 +128,12 @@ const SkillsSection = () => {
                 {group.items.map((item) => (
                   <div
                     key={item.label}
-                    className="flex flex-col items-center w-[80px]"
+                    className="flex flex-col items-center w-[80px] hover:drop-shadow-[0_2px_5px_rgba(107,112,218,0.6)] transition-all duration-75 hover:scale-101"
                   >
                     <img
                       src={item.icon}
                       alt={item.label}
-                      className="object-contain mb-1 w-[60px] h-[60px] hover:drop-shadow-[0_2px_5px_rgba(107,112,218,0.6)] transition-all duration-75 hover:scale-101"
+                      className="object-contain mb-1 w-[60px] h-[60px] "
                     />
                     <span className="text-subtext text-primary text-center text-sm">
                       {item.label}

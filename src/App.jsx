@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import SkillsSection from "/src/components/SkillsSection";
 import HeroSection from "/src/components/HeroSection";

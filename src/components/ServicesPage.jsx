@@ -39,10 +39,11 @@ import UploadToTheCloud from "../assets/servicePageImages/Upload-to-the-Cloud.pn
 import Website from "../assets/servicePageImages/Website.png";
 import Workstation from "../assets/servicePageImages/Workstation.png";
 import YoungManDegree from "../assets/servicePageImages/Young-man-getting-an-academic-degree-online.png";
+import RectangleDivider from './RectangleDivider';
 
 // Card for each deliverable
 const ServiceCard = ({ text, image, alt }) => (
-  <div className="flex flex-col items-center w-[120px] md:w-[150px] mb-4">
+  <div className="flex flex-col items-center w-[120px] md:w-[150px] mb-4 hover:drop-shadow-[0_2px_5px_rgba(107,112,218,0.6)] transition-all duration-75 hover:scale-101">
     <img src={image} alt={alt} className="w-[50px] h-[50px] md:w-[60px] md:h-[60px] mb-2 icon-primary-precise" />
     <div className="text-primary text-center text-base md:text-lg font-normal font-[Jaldi] leading-tight">
       {text}
@@ -90,14 +91,14 @@ const ServiceSection = ({
 
 const ServicesPage = ({ onNavigateHome, onNavigateToBlogs }) => {
   return (
-    <div className="bg-background min-h-screen w-full">
+    <div className=" min-h-screen w-full">
       <Navbar 
         onNavigateHome={onNavigateHome} 
         onNavigateToBlogs={onNavigateToBlogs}
       />
       <div className="pt-24 max-w-[1400px] mx-auto px-4">
         <h1 className="text-primary text-heroheading text-center mb-16">SERVICES</h1>
-
+        <RectangleDivider />
         <ServiceSection
           leftImage={StockTrader}
           leftImageAlt="Stock trader working"
@@ -117,7 +118,7 @@ const ServicesPage = ({ onNavigateHome, onNavigateToBlogs }) => {
           <BookACallButton onClick={() => window.location.href='tel:+916378662150'} />
           <LetsChatButton />
         </ServiceSection>
-
+        <RectangleDivider/>
         <ServiceSection
           leftImage={Clouds}
           leftImageAlt="Clouds"
@@ -135,7 +136,7 @@ const ServicesPage = ({ onNavigateHome, onNavigateToBlogs }) => {
           <BookACallButton onClick={() => window.location.href='tel:+916378662150'} />
           <LetsChatButton />
         </ServiceSection>
-
+        <RectangleDivider/>
         <ServiceSection
           leftImage={YoungManDegree}
           leftImageAlt="Young man getting an academic degree online"
@@ -154,7 +155,7 @@ const ServicesPage = ({ onNavigateHome, onNavigateToBlogs }) => {
           <BookACallButton onClick={() => window.location.href='tel:+916378662150'} />
           <LetsChatButton />
         </ServiceSection>
-
+        <RectangleDivider/>
         <ServiceSection
           leftImage={OnlineEmployeeTraining}
           leftImageAlt="Online employee training"
@@ -173,7 +174,7 @@ const ServicesPage = ({ onNavigateHome, onNavigateToBlogs }) => {
           <BookACallButton onClick={() => window.location.href='tel:+916378662150'} />
           <LetsChatButton />
         </ServiceSection>
-
+        <RectangleDivider/>
         <ServiceSection
           leftImage={GroupOfPeople}
           leftImageAlt="Group of people"
