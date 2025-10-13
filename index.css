@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@theme {
+  --font-main: Jaldi;
+  --font-weight-bold: 700;
+  --color-primary: #0f0063;
+  --color-accent: #6b70da;
+  --color-subtle: #85929e;
+  --color-background: #eaeded;
+}
+
+@layer components {
+  .text-heading {
+    font-family: Jaldi;
+    font-weight: 700;
+    font-size: 1.8rem;
+  }
+  .text-heroheading {
+    font-family: Jaldi;
+    font-weight: 700;
+    font-size: 5rem;
+  }
+  .text-subtext {
+    font-family: Jaldi;
+    font-weight: 400;
+    font-size: 1rem;
+  }
+  .text-regular {
+    font-family: Jaldi;
+    font-weight: 400;
+    font-size: 1.4rem;
+  }
+  .text-title {
+    font-family: Jaldi;
+    font-weight: 700;
+    font-size: 3rem;
+  }
+  .icon-primary {
+    filter: invert(6%) sepia(97%) saturate(7471%) hue-rotate(244deg) brightness(90%) contrast(149%);
+  }
+
+  .icon-primary-precise {
+    filter: brightness(0) saturate(100%) invert(6%) sepia(97%) saturate(7471%) hue-rotate(244deg) brightness(65%) contrast(149%);
+  }
+}
