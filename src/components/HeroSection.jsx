@@ -1,3 +1,4 @@
+import React from 'react';
 const HeroSection = () => {
   return (
     <div className="flex flex-row gap-60 px-30">
