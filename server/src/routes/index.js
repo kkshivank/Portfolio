@@ -35,7 +35,8 @@ import {
 import {
   getAllBlogs,
   addBlog,
-  deleteBlog,} from "../controllers/blog.controller.js";
+  deleteBlog,
+getBlogById} from "../controllers/blog.controller.js";
 
 import {
   getAllResearchPapers,
@@ -182,6 +183,9 @@ router.delete(
 
 // Get All Blogs
 router.get("/blogs", getAllBlogs);
+
+// Get Single Blog by ID
+router.get("/blogs/:id", getBlogById);
 
 // Add Blog
 router.post(

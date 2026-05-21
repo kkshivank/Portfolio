@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { PenTool, ArrowRight, Hash } from "lucide-react";
+import { PenTool, ArrowRight, Hash, Image as ImageIcon } from "lucide-react";
 import api from "../../api/axiosinstance";
 import { useNavigate } from "react-router-dom";
 
@@ -35,9 +35,6 @@ export default function Blogs() {
               <span className="text-teal-400 font-mono text-xl md:text-2xl mr-3">06.</span> 
               Technical Articles
             </h2>
-            <p className="text-slate-400 mt-3 max-w-2xl text-sm md:text-base">
-              Thoughts, tutorials, and deep dives into full-stack development, database architecture, and algorithms.
-            </p>
           </div>
           
           <button 
@@ -52,12 +49,13 @@ export default function Blogs() {
         {/* Standard Responsive Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {isLoading ? (
-            // Skeleton Loader matches the grid
+            // Skeleton Loader matches the new image grid
             [1, 2, 3].map((skeleton) => (
               <div key={skeleton} className="bg-slate-900 p-6 md:p-8 rounded-2xl border border-slate-800 animate-pulse flex flex-col h-full">
-                <div className="h-10 w-10 bg-slate-800 rounded-lg mb-6"></div>
+                {/* Image Skeleton */}
+                <div className="h-48 w-full bg-slate-800 rounded-xl mb-6"></div>
                 <div className="h-6 bg-slate-800 w-3/4 rounded mb-4"></div>
-                <div className="h-20 bg-slate-800 w-full rounded mb-6"></div>
+                <div className="h-16 bg-slate-800 w-full rounded mb-6"></div>
                 <div className="mt-auto pt-5 flex gap-2 border-t border-slate-800/50">
                   <div className="h-6 w-16 bg-slate-800 rounded-md"></div>
                   <div className="h-6 w-20 bg-slate-800 rounded-md"></div>
@@ -69,25 +67,42 @@ export default function Blogs() {
             blogs.slice(0, 5).map((blog) => (
               <div 
                 key={blog._id} 
-                className="bg-slate-900 p-6 md:p-8 rounded-2xl border border-slate-800 hover:border-teal-400/40 hover:-translate-y-1 transition-all duration-300 flex flex-col group shadow-lg cursor-pointer h-full"
+                onClick={() => navigate(`/blogs/${blog._id}`)}
+                className="bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-teal-400/40 hover:-translate-y-1 transition-all duration-300 flex flex-col group shadow-lg cursor-pointer h-full"
               >
-                <div className="flex items-center justify-between mb-6">
-                  <div className="p-3 bg-teal-400/10 rounded-lg text-teal-400">
-                    <PenTool className="h-6 w-6" />
-                  </div>
+                
+                {/* Fixed Image Section */}
+                <div className="w-full h-48 mb-6 rounded-xl overflow-hidden bg-slate-800 relative flex-shrink-0">
+                  {blog.thumbnail ? (
+                    <img 
+                      src={blog.thumbnail} 
+                      alt={blog.title} 
+                      className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                    />
+                  ) : (
+                    // Fallback if no thumbnail is provided
+                    <div className="w-full h-full flex items-center justify-center text-slate-600">
+                      <ImageIcon className="h-10 w-10 opacity-50" />
+                    </div>
+                  )}
+                  {/* Optional: Add a small overlay gradient for better aesthetics */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
 
-                <div className="flex-grow">
-                  <h3 className="text-xl font-bold text-slate-100 mb-4 group-hover:text-teal-400 transition-colors leading-tight">
+                <div className="flex-grow flex flex-col">
+                  {/* Title with line-clamp to prevent overflowing height */}
+                  <h3 className="text-xl font-bold text-slate-100 mb-3 group-hover:text-teal-400 transition-colors leading-tight line-clamp-2">
                     {blog.title}
                   </h3>
-                  <p className="text-slate-400 text-sm leading-relaxed mb-6 whitespace-pre-wrap">
+                  
+                  {/* Summary with line-clamp-3 (Truncates with ... after 3 lines) */}
+                  <p className="text-slate-400 text-sm leading-relaxed mb-6 line-clamp-3">
                     {blog.summary}
                   </p>
                 </div>
 
                 {/* Footer: Tags - pushed to bottom via flex-grow above */}
-                <div className="mt-auto pt-6 flex flex-wrap gap-2 border-t border-slate-800/50">
+                <div className="mt-auto pt-5 flex flex-wrap gap-2 border-t border-slate-800/50">
                   {blog.tags?.slice(0, 3).map((tag, idx) => (
                     <span key={idx} className="flex items-center text-[11px] uppercase tracking-wider text-slate-500 font-semibold bg-slate-950 px-2.5 py-1 rounded-md border border-slate-800">
                       <Hash className="h-3 w-3 mr-0.5 text-teal-400/70" /> {tag}

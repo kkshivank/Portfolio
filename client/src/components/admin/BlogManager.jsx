@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
-import { Loader2, Plus, Trash2, FileText, PenTool, Hash } from "lucide-react";
+import { Loader2, Plus, Trash2, FileText, PenTool, Hash, Image as ImageIcon, X } from "lucide-react";
 import api from "../../api/axiosinstance";
 
 export default function BlogManager() {
@@ -13,8 +13,11 @@ export default function BlogManager() {
     title: "",
     summary: "",
     content: "",
-    tags: "", // Handled as comma-separated string in UI
+    tags: "", 
+    thumbnail: "", 
   });
+  
+  const [imagePreview, setImagePreview] = useState(null);
 
   useEffect(() => {
     fetchBlogs();
@@ -35,21 +38,52 @@ export default function BlogManager() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        return toast.error("Image must be less than 5MB");
+      }
+
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+        setFormData({ ...formData, thumbnail: reader.result }); 
+      };
+      reader.onerror = () => {
+        toast.error("Error reading file");
+      };
+    }
+  };
+
+  const removeImage = () => {
+    setImagePreview(null);
+    setFormData({ ...formData, thumbnail: "" });
+  };
+
   const handleAddBlog = async (e) => {
     e.preventDefault();
-    if (!formData.title || !formData.content) {
-      return toast.error("Title and Content are required");
+    
+    // Strict validation: ALL fields are now mandatory
+    if (!formData.title || !formData.summary || !formData.content || !formData.tags || !formData.thumbnail) {
+      return toast.error("All fields are mandatory, including the cover image and tags.");
     }
 
     setIsAdding(true);
     const loadingToast = toast.loading("Publishing blog...");
 
     try {
-      // Convert comma-separated tags to an array
       const tagsArray = formData.tags
         .split(",")
         .map((tag) => tag.trim())
         .filter((tag) => tag !== "");
+
+      if (tagsArray.length === 0) {
+        toast.dismiss(loadingToast);
+        setIsAdding(false);
+        return toast.error("Please add at least one valid tag.");
+      }
 
       const payload = {
         ...formData,
@@ -59,7 +93,6 @@ export default function BlogManager() {
       const response = await api.post("/blogs", payload);
       toast.success(response.data.message || "Blog published!", { id: loadingToast });
       
-      // Update UI state with new blog
       setBlogs([response.data.blog, ...blogs]);
       
       // Reset form
@@ -68,7 +101,16 @@ export default function BlogManager() {
         summary: "",
         content: "",
         tags: "",
+        thumbnail: "",
       });
+      setImagePreview(null);
+      
+      // Fix: Safely clear the input ONLY if it currently exists in the DOM
+      const fileInput = document.getElementById("thumbnail-upload");
+      if (fileInput) {
+        fileInput.value = ""; 
+      }
+
     } catch (error) {
       toast.error(error.response?.data?.message || "Error adding blog", { id: loadingToast });
     } finally {
@@ -109,12 +151,12 @@ export default function BlogManager() {
           <PenTool className="mr-3 text-teal-400" />
           Blogs Management
         </h2>
-        <p className="text-slate-400 text-sm mt-1">Publish articles, tutorials, and thoughts to share with your audience.</p>
+        <p className="text-slate-400 text-sm mt-1">Publish Markdown articles with cover images to share with your audience.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
-        {/* ADD NEW BLOG FORM (Left Column) */}
+        {/* ADD NEW BLOG FORM */}
         <div className="lg:col-span-5">
           <div className="bg-slate-800/50 p-6 rounded-xl border border-slate-700 sticky top-6">
             <h3 className="text-lg font-semibold text-slate-200 mb-4 flex items-center">
@@ -124,6 +166,31 @@ export default function BlogManager() {
             
             <form onSubmit={handleAddBlog} className="space-y-4">
               
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Cover Image (Thumbnail)*</label>
+                
+                {imagePreview ? (
+                  <div className="relative rounded-lg overflow-hidden border border-slate-600 mb-2">
+                    <img src={imagePreview} alt="Preview" className="w-full h-32 object-cover" />
+                    <button 
+                      type="button" 
+                      onClick={removeImage}
+                      className="absolute top-2 right-2 p-1 bg-slate-900/80 text-white rounded-md hover:bg-red-500 transition-colors"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-slate-600 border-dashed rounded-lg cursor-pointer bg-slate-900/50 hover:bg-slate-800 transition-colors">
+                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                      <ImageIcon className="w-8 h-8 mb-2 text-slate-400" />
+                      <p className="text-sm text-slate-400"><span className="font-semibold text-teal-400">Click to upload</span> cover image</p>
+                    </div>
+                    <input id="thumbnail-upload" type="file" accept="image/*" className="hidden" onChange={handleImageChange} required={!formData.thumbnail} />
+                  </label>
+                )}
+              </div>
+
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1">Blog Title*</label>
                 <input 
@@ -149,7 +216,7 @@ export default function BlogManager() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Tags (Comma separated)</label>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Tags (Comma separated)*</label>
                 <div className="relative">
                   <Hash className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
                   <input 
@@ -157,6 +224,7 @@ export default function BlogManager() {
                     name="tags" 
                     value={formData.tags} 
                     onChange={handleChange} 
+                    required
                     placeholder="e.g. React, Web Dev, Tutorial"
                     className="block w-full pl-9 pr-3 py-2 border border-slate-600 rounded-lg bg-slate-900/50 text-slate-100 focus:ring-2 focus:ring-teal-400 focus:outline-none" 
                   />
@@ -164,15 +232,18 @@ export default function BlogManager() {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Full Content*</label>
+                <div className="flex justify-between items-end mb-1">
+                  <label className="block text-sm font-medium text-slate-300">Full Content*</label>
+                  <span className="text-xs text-teal-400 font-mono bg-teal-400/10 px-2 py-0.5 rounded">Markdown Supported</span>
+                </div>
                 <textarea 
                   name="content" 
                   value={formData.content} 
                   onChange={handleChange} 
                   required 
-                  placeholder="Write your blog content here..."
+                  placeholder="# Heading 1&#10;Write your content in Markdown format..."
                   rows="10" 
-                  className="block w-full px-3 py-2 border border-slate-600 rounded-lg bg-slate-900/50 text-slate-100 focus:ring-2 focus:ring-teal-400 focus:outline-none resize-none font-mono text-sm"
+                  className="block w-full px-3 py-2 border border-slate-600 rounded-lg bg-slate-900/50 text-slate-100 focus:ring-2 focus:ring-teal-400 focus:outline-none resize-none font-mono text-sm leading-relaxed"
                 ></textarea>
               </div>
 
@@ -183,7 +254,7 @@ export default function BlogManager() {
           </div>
         </div>
 
-        {/* EXISTING BLOGS DISPLAY (Right Column) */}
+        {/* EXISTING BLOGS DISPLAY */}
         <div className="lg:col-span-7 space-y-4">
           {blogs.length === 0 ? (
             <div className="bg-slate-800/30 p-8 rounded-xl border border-slate-700 text-center text-slate-400">
@@ -191,44 +262,57 @@ export default function BlogManager() {
             </div>
           ) : (
             blogs.map((blog) => (
-              <div key={blog._id} className="bg-slate-800/40 p-5 rounded-xl border border-slate-700 hover:border-slate-500 transition-colors relative group">
+              <div key={blog._id} className="bg-slate-800/40 p-5 rounded-xl border border-slate-700 hover:border-slate-500 transition-colors relative group flex flex-col sm:flex-row gap-4">
                 
-                {/* Delete Button (Shows on hover) */}
                 <button
                   onClick={() => handleDeleteBlog(blog._id)}
                   disabled={deletingId === blog._id}
-                  className="absolute top-4 right-4 p-1.5 text-slate-400 hover:text-red-400 hover:bg-slate-700 rounded-md transition-colors opacity-100 sm:opacity-0 sm:group-hover:opacity-100"
+                  className="absolute top-4 right-4 p-1.5 text-slate-400 hover:text-red-400 hover:bg-slate-700 rounded-md transition-colors opacity-100 sm:opacity-0 sm:group-hover:opacity-100 z-10"
                   title="Delete Blog"
                 >
                   {deletingId === blog._id ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
                 </button>
 
-                <div className="pr-8">
+                {blog.thumbnail && (
+                  <div className="sm:w-32 flex-shrink-0">
+                    <img 
+                      src={blog.thumbnail} 
+                      alt={blog.title} 
+                      className="w-full h-24 sm:h-full object-cover rounded-lg border border-slate-700"
+                    />
+                  </div>
+                )}
+
+                <div className="flex-grow pr-8">
                   <div className="flex items-center gap-2 mb-2">
-                    <FileText className="h-4 w-4 text-teal-400" />
-                    <h4 className="font-bold text-lg text-slate-100">{blog.title}</h4>
+                    <FileText className="h-4 w-4 text-teal-400 flex-shrink-0" />
+                    <h4 className="font-bold text-lg text-slate-100 line-clamp-1">{blog.title}</h4>
                   </div>
                   
                   {blog.summary && (
-                    <p className="text-slate-300 text-sm leading-relaxed mb-3">
+                    <p className="text-slate-300 text-sm leading-relaxed mb-3 line-clamp-2">
                       {blog.summary}
                     </p>
                   )}
 
-                  {/* Tags */}
                   {blog.tags && blog.tags.length > 0 && (
                     <div className="flex flex-wrap gap-2 mt-2">
-                      {blog.tags.map((tag, idx) => (
+                      {blog.tags.slice(0, 3).map((tag, idx) => (
                         <span key={idx} className="text-xs font-medium bg-slate-900 text-slate-300 border border-slate-700 px-2.5 py-0.5 rounded-full flex items-center">
                           <Hash className="h-3 w-3 mr-1 text-slate-500" />
                           {tag}
                         </span>
                       ))}
+                      {blog.tags.length > 3 && (
+                        <span className="text-xs font-medium bg-slate-900 text-slate-500 border border-slate-700 px-2 py-0.5 rounded-full">
+                          +{blog.tags.length - 3}
+                        </span>
+                      )}
                     </div>
                   )}
 
                   <div className="mt-4 pt-3 border-t border-slate-700/50 flex justify-between items-center text-xs text-slate-500">
-                    <span>Content length: {blog.content?.length || 0} characters</span>
+                    <span>Markdown Content</span>
                     {blog.createdAt && (
                       <span>{new Date(blog.createdAt).toLocaleDateString()}</span>
                     )}

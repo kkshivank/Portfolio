@@ -4,6 +4,7 @@ import Dashboard from "../pages/admin/Dashboard";
 import Home from "../pages/public/Home";
 import ResearchPapersPage from "../pages/public/ResearchPapersPage";
 import BlogsPage from "../pages/public/BlogsPage";
+import BlogDetail from "../pages/public/BlogDetail";
 
 
 
@@ -15,6 +16,7 @@ const myRoute = createBrowserRouter(
             <Route path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/research-papers" element={<ResearchPapersPage />} />
             <Route path="/blogs" element={<BlogsPage />} />
+            <Route path="/blogs/:id" element={<BlogDetail />} />
         </>
      )
 )

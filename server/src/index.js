@@ -17,8 +17,9 @@ app.use(
 );
 console.log("Using FRONTEND_URL:", process.env.FRONTEND_URL);
 
-app.use(express.json());
 app.use(cookieParser());
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 // Serverless-Optimized DB Connection
 const connectDB = async () => {
