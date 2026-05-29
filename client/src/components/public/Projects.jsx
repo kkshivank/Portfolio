@@ -39,101 +39,90 @@ export default function Projects() {
           </h2>
         </div>
 
-        {/* Projects List */}
-        <div className="space-y-24">
+        {/* Projects Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {isLoading ? (
-            [1, 2].map((skeleton) => (
-              <div key={skeleton} className="flex flex-col lg:flex-row gap-8 animate-pulse">
-                <div className="lg:w-7/12 h-64 md:h-96 bg-slate-800 rounded-xl"></div>
-                <div className="lg:w-5/12 flex flex-col justify-center space-y-4">
-                  <div className="h-4 bg-slate-800 w-1/4 rounded"></div>
-                  <div className="h-8 bg-slate-800 w-3/4 rounded"></div>
-                  <div className="h-24 bg-slate-800 w-full rounded"></div>
-                  <div className="flex gap-2"><div className="h-6 bg-slate-800 w-16 rounded"></div></div>
+            // Skeleton Loader adapted for grid
+            [1, 2, 3].map((skeleton) => (
+              <div key={skeleton} className="bg-slate-800/30 p-8 rounded-xl h-80 animate-pulse border border-slate-700/50 flex flex-col justify-between">
+                <div>
+                  <div className="flex justify-between items-center mb-6">
+                    <div className="h-10 w-10 bg-slate-700 rounded-full"></div>
+                    <div className="h-6 w-16 bg-slate-700 rounded"></div>
+                  </div>
+                  <div className="h-8 bg-slate-700 w-3/4 rounded mb-4"></div>
+                  <div className="h-16 bg-slate-700 w-full rounded"></div>
+                </div>
+                <div className="flex gap-2">
+                  <div className="h-6 bg-slate-700 w-16 rounded"></div>
+                  <div className="h-6 bg-slate-700 w-16 rounded"></div>
                 </div>
               </div>
             ))
           ) : (
-            projects.map((project, index) => {
-              // Alternate layouts: Even index images sit left, Odd sit right
-              const isImageLeft = index % 2 === 0;
-
-              return (
-                <div 
-                  key={project._id} 
-                  className={`flex flex-col ${isImageLeft ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-8 lg:gap-12 items-center group`}
-                >
+            projects.map((project) => (
+              <div 
+                key={project._id} 
+                className="bg-slate-800/40 backdrop-blur-sm border border-slate-700/50 p-6 md:p-8 rounded-xl shadow-xl flex flex-col justify-between hover:border-teal-400/50 hover:-translate-y-2 transition-all duration-300 group"
+              >
+                
+                {/* Top Row: Icon & Links */}
+                <div className="flex justify-between items-start mb-6">
+                  <div className="text-teal-400">
+                    <FolderGit2 className="h-10 w-10" />
+                  </div>
                   
-                  {/* Project Visual Container */}
-                  <div className="w-full lg:w-7/12 relative">
-                    <div className="relative rounded-xl overflow-hidden aspect-video border border-slate-700/50 shadow-2xl group-hover:border-teal-400/30 transition-colors duration-500 bg-slate-950">
-                      {/* Interactive responsive filter overlay */}
-                      <div className="absolute inset-0 bg-teal-400/10 mix-blend-multiply group-hover:bg-transparent transition-all duration-500 z-10"></div>
-                      
-                      {project.image ? (
-                        <img 
-                          src={project.image} 
-                          alt={project.title} 
-                          className="w-full h-full object-cover transform group-hover:scale-[1.02] transition-transform duration-700"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <FolderGit2 className="h-16 w-16 text-slate-700" />
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Project Informational Container */}
-                  <div className={`w-full lg:w-5/12 flex flex-col ${isImageLeft ? 'lg:items-start lg:text-left' : 'lg:items-end lg:text-right'} relative z-20`}>
-                    <p className="text-teal-400 font-mono text-sm mb-2 tracking-wide">Featured Project</p>
-                    <h3 className="text-2xl md:text-3xl font-bold text-slate-100 mb-6 tracking-tight">{project.title}</h3>
-                    
-                    <div className="bg-slate-800/40 backdrop-blur-sm border border-slate-700/50 p-6 rounded-xl shadow-xl mb-6 text-slate-300 text-sm md:text-base leading-relaxed relative hover:border-slate-600/60 transition-colors">
-                      {project.summary}
-                    </div>
-
-                    {/* Tech Stack List - Adjusted alignment vectors */}
-                    {project.tech && project.tech.length > 0 && (
-                      <ul className={`flex flex-wrap gap-2.5 mb-6 font-mono text-xs text-slate-400 ${isImageLeft ? 'justify-start' : 'justify-start lg:justify-end'}`}>
-                        {project.tech.map((techItem, idx) => (
-                          <li key={idx} className="bg-slate-950 px-3 py-1 rounded-md border border-slate-800 text-slate-300 font-medium">
-                            {techItem}
-                          </li>
-                        ))}
-                      </ul>
+                  {/* Action Links */}
+                  <div className="flex items-center gap-4 text-slate-400">
+                    {project.githubLink && (
+                      <a 
+                        href={project.githubLink} 
+                        target="_blank" 
+                        rel="noreferrer"
+                        className="hover:text-teal-400 transition-colors flex items-center p-1 group/icon"
+                        aria-label="Source Repository"
+                      >
+                        <FaGithub className="h-[22px] w-[22px] transform group-hover/icon:-translate-y-0.5 transition-transform" />
+                      </a>
                     )}
-
-                    {/* Action Links using real brand definitions */}
-                    <div className="flex items-center gap-5 text-slate-400">
-                      {project.githubLink && (
-                        <a 
-                          href={project.githubLink} 
-                          target="_blank" 
-                          rel="noreferrer"
-                          className="hover:text-teal-400 transition-colors flex items-center p-1 group/icon"
-                          aria-label="Source Repository"
-                        >
-                          <FaGithub className="h-5 w-5 transform group-hover/icon:-translate-y-0.5 transition-transform" />
-                        </a>
-                      )}
-                      {project.liveLink && (
-                        <a 
-                          href={project.liveLink} 
-                          target="_blank" 
-                          rel="noreferrer"
-                          className="hover:text-teal-400 transition-colors flex items-center p-1 group/icon"
-                          aria-label="Live Production Deployment"
-                        >
-                          <FaExternalLinkAlt className="h-4 w-4 transform group-hover/icon:-translate-y-0.5 transition-transform" />
-                        </a>
-                      )}
-                    </div>
+                    {project.liveLink && (
+                      <a 
+                        href={project.liveLink} 
+                        target="_blank" 
+                        rel="noreferrer"
+                        className="hover:text-teal-400 transition-colors flex items-center p-1 group/icon"
+                        aria-label="Live Production Deployment"
+                      >
+                        <FaExternalLinkAlt className="h-5 w-5 transform group-hover/icon:-translate-y-0.5 transition-transform" />
+                      </a>
+                    )}
                   </div>
-
                 </div>
-              );
-            })
+
+                {/* Main Content */}
+                <div className="mb-6 flex-grow">
+                  <h3 className="text-xl md:text-2xl font-bold text-slate-100 mb-3 tracking-tight group-hover:text-teal-400 transition-colors">
+                    {project.title}
+                  </h3>
+                  
+                  <div className="text-slate-300 text-sm md:text-base leading-relaxed">
+                    {project.summary}
+                  </div>
+                </div>
+
+                {/* Tech Stack List (Pushed to bottom) */}
+                {project.tech && project.tech.length > 0 && (
+                  <ul className="flex flex-wrap gap-x-4 gap-y-2 font-mono text-xs text-slate-500 mt-auto">
+                    {project.tech.map((techItem, idx) => (
+                      <li key={idx}>
+                        {techItem}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+              </div>
+            ))
           )}
         </div>
       </div>

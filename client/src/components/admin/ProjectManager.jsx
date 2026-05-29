@@ -5,10 +5,8 @@ import {
   Plus,
   Trash2,
   FolderGit2,
-  Upload,
   ExternalLink,
   Code,
-  Image as ImageIcon,
 } from "lucide-react";
 import api from "../../api/axiosinstance";
 
@@ -17,7 +15,6 @@ export default function ProjectManager() {
   const [isFetching, setIsFetching] = useState(true);
   const [isAdding, setIsAdding] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
-  const [imagePreview, setImagePreview] = useState("");
 
   const [formData, setFormData] = useState({
     title: "",
@@ -25,7 +22,6 @@ export default function ProjectManager() {
     tech: "", // Handled as comma-separated string in UI, converted to array on submit
     liveLink: "",
     githubLink: "",
-    image: "", // Base64 string for Cloudinary
   });
 
   useEffect(() => {
@@ -45,23 +41,6 @@ export default function ProjectManager() {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  // Convert image to Base64 to send in req.body for Cloudinary
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    if (file.size > 5 * 1024 * 1024) {
-      return toast.error("Image size must be less than 5MB");
-    }
-
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setFormData({ ...formData, image: reader.result });
-      setImagePreview(reader.result);
-    };
   };
 
   const handleAddProject = async (e) => {
@@ -100,9 +79,7 @@ export default function ProjectManager() {
         tech: "",
         liveLink: "",
         githubLink: "",
-        image: "",
       });
-      setImagePreview("");
     } catch (error) {
       toast.error(error.response?.data?.message || "Error adding project", {
         id: loadingToast,
@@ -165,39 +142,6 @@ export default function ProjectManager() {
             </h3>
 
             <form onSubmit={handleAddProject} className="space-y-4">
-              {/* Image Upload Area */}
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-slate-300 mb-2">
-                  Project Image / Thumbnail
-                </label>
-                <div className="flex items-center justify-center w-full">
-                  <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-slate-600 border-dashed rounded-lg cursor-pointer bg-slate-900/50 hover:bg-slate-800 transition-colors overflow-hidden relative">
-                    {imagePreview ? (
-                      <img
-                        src={imagePreview}
-                        alt="Preview"
-                        className="w-full h-full object-cover opacity-80"
-                      />
-                    ) : (
-                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                        <Upload className="w-8 h-8 mb-2 text-slate-500" />
-                        <p className="text-sm text-slate-400">
-                          <span className="font-semibold text-teal-400">
-                            Click to upload
-                          </span>
-                        </p>
-                      </div>
-                    )}
-                    <input
-                      type="file"
-                      className="hidden"
-                      accept="image/*"
-                      onChange={handleImageChange}
-                    />
-                  </label>
-                </div>
-              </div>
-
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1">
                   Project Title*
@@ -297,19 +241,6 @@ export default function ProjectManager() {
                   key={project._id}
                   className="bg-slate-800/40 rounded-xl border border-slate-700 overflow-hidden flex flex-col sm:flex-row hover:border-slate-500 transition-colors"
                 >
-                  {/* Thumbnail */}
-                  <div className="sm:w-40 h-40 sm:h-auto bg-slate-900 flex-shrink-0 flex items-center justify-center border-b sm:border-b-0 sm:border-r border-slate-700">
-                    {project.image ? (
-                      <img
-                        src={project.image}
-                        alt={project.title}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <ImageIcon className="h-8 w-8 text-slate-600" />
-                    )}
-                  </div>
-
                   {/* Content */}
                   <div className="p-4 flex-1 flex flex-col justify-between">
                     <div>

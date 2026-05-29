@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-hot-toast";
-import { Loader2, Plus, Trash2, Briefcase, Building2, Calendar } from "lucide-react";
+import { Loader2, Plus, Trash2, Briefcase, Building2 } from "lucide-react";
 import api from "../../api/axiosinstance";
 
 export default function ExperienceManager() {
@@ -12,7 +12,6 @@ export default function ExperienceManager() {
   const [formData, setFormData] = useState({
     role: "",
     company: "",
-    period: "",
     description: "",
   });
 
@@ -37,8 +36,8 @@ export default function ExperienceManager() {
 
   const handleAddExperience = async (e) => {
     e.preventDefault();
-    if (!formData.role || !formData.company || !formData.period) {
-      return toast.error("Role, Company, and Period are required");
+    if (!formData.role || !formData.company) {
+      return toast.error("Role and Company are required");
     }
 
     setIsAdding(true);
@@ -55,7 +54,6 @@ export default function ExperienceManager() {
       setFormData({
         role: "",
         company: "",
-        period: "",
         description: "",
       });
     } catch (error) {
@@ -141,22 +139,6 @@ export default function ExperienceManager() {
                   />
                 </div>
               </div>
-
-              <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1">Work Period*</label>
-                <div className="relative">
-                  <Calendar className="absolute left-3 top-2.5 h-4 w-4 text-slate-500" />
-                  <input 
-                    type="text" 
-                    name="period" 
-                    value={formData.period} 
-                    onChange={handleChange} 
-                    placeholder="e.g. Jan 2024 - Present"
-                    required 
-                    className="block w-full pl-9 pr-3 py-2 border border-slate-600 rounded-lg bg-slate-900/50 text-slate-100 focus:ring-2 focus:ring-teal-400 focus:outline-none" 
-                  />
-                </div>
-              </div>
               
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1">Description</label>
@@ -202,9 +184,6 @@ export default function ExperienceManager() {
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-1 text-sm">
                     <span className="flex items-center text-teal-400 font-medium">
                       <Building2 className="h-4 w-4 mr-1.5" /> {exp.company}
-                    </span>
-                    <span className="flex items-center text-slate-400">
-                      <Calendar className="h-4 w-4 mr-1.5" /> {exp.period}
                     </span>
                   </div>
                   

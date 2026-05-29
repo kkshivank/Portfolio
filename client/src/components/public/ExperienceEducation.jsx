@@ -105,11 +105,17 @@ export default function ExperienceEducation() {
                     <span className="text-teal-400 tracking-wide">
                       {activeTab === "experience" ? item.company : item.institution}
                     </span>
-                    <span className="hidden sm:inline text-slate-700">•</span>
-                    <span className="text-slate-400 flex items-center">
-                      <Calendar className="w-3.5 h-3.5 mr-1.5 text-slate-500" />
-                      {item.period}
-                    </span>
+                    
+                    {/* Conditionally render Period only for Education */}
+                    {activeTab === "education" && (
+                      <>
+                        <span className="hidden sm:inline text-slate-700">•</span>
+                        <span className="text-slate-400 flex items-center">
+                          <Calendar className="w-3.5 h-3.5 mr-1.5 text-slate-500" />
+                          {item.period}
+                        </span>
+                      </>
+                    )}
                   </div>
                   
                   {item.description && (
