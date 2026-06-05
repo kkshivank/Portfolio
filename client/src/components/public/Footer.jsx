@@ -16,7 +16,7 @@ export default function Footer() {
             name: response.data.name || "Developer",
             githubLink: response.data.githubLink || "",
             linkedinLink: response.data.linkedinLink || "",
-            twitterLink: response.data.twitterLink || "", // Works if your schema supports it
+            twitterLink: response.data.twitterLink || "",
           });
         }
       } catch (error) {
@@ -27,40 +27,38 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer className="bg-slate-950 py-12 border-t border-slate-900 relative z-10">
+    <footer className="bg-white py-12 border-t border-slate-200 relative z-10">
       <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col items-center">
-        
-        {/* Dynamic Social Links Group */}
         {(profile.githubLink || profile.linkedinLink || profile.twitterLink) && (
-          <div className="flex gap-6 mb-8">
+          <div className="flex gap-4 mb-8">
             {profile.githubLink && (
-              <a 
-                href={profile.githubLink} 
-                target="_blank" 
-                rel="noreferrer" 
-                className="text-slate-500 hover:text-teal-400 transition-colors p-1"
+              <a
+                href={profile.githubLink}
+                target="_blank"
+                rel="noreferrer"
+                className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-500 hover:text-teal-600 hover:border-teal-200 transition-all"
                 aria-label="GitHub Profile"
               >
                 <FaGithub className="h-5 w-5" />
               </a>
             )}
             {profile.linkedinLink && (
-              <a 
-                href={profile.linkedinLink} 
-                target="_blank" 
-                rel="noreferrer" 
-                className="text-slate-500 hover:text-teal-400 transition-colors p-1"
+              <a
+                href={profile.linkedinLink}
+                target="_blank"
+                rel="noreferrer"
+                className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-500 hover:text-teal-600 hover:border-teal-200 transition-all"
                 aria-label="LinkedIn Profile"
               >
                 <FaLinkedin className="h-5 w-5" />
               </a>
             )}
             {profile.twitterLink && (
-              <a 
-                href={profile.twitterLink} 
-                target="_blank" 
-                rel="noreferrer" 
-                className="text-slate-500 hover:text-teal-400 transition-colors p-1"
+              <a
+                href={profile.twitterLink}
+                target="_blank"
+                rel="noreferrer"
+                className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-slate-500 hover:text-teal-600 hover:border-teal-200 transition-all"
                 aria-label="Twitter Profile"
               >
                 <FaTwitter className="h-5 w-5" />
@@ -69,15 +67,13 @@ export default function Footer() {
           </div>
         )}
 
-        {/* Global Structural Meta-Tags */}
-        <div className="flex items-center text-xs text-slate-600 font-mono mb-4 tracking-wider select-none">
+        <div className="flex items-center text-xs text-slate-400 font-mono mb-4 tracking-wider select-none">
           <span>BUILT WITH</span>
-          <Heart className="h-3 w-3 mx-2 text-teal-500/80 fill-teal-500/20" />
+          <Heart className="h-3 w-3 mx-2 text-teal-500 fill-teal-100" />
           <span>MERN STACK • TAILWIND CSS</span>
         </div>
 
-        {/* Dynamic Copyright Statement */}
-        <p className="text-slate-600 text-sm font-medium text-center tracking-wide">
+        <p className="text-slate-500 text-sm font-medium text-center tracking-wide">
           © {currentYear} {profile.name}. All rights reserved.
         </p>
       </div>
