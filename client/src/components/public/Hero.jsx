@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 import api from "../../api/axiosinstance";
+import Typewriter from "typewriter-effect";
 
 export default function Hero() {
   const [profile, setProfile] = useState(null);
@@ -52,7 +53,13 @@ export default function Hero() {
           </h1>
 
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-slate-500 mb-6 leading-snug">
-            {profile?.role}
+            <Typewriter
+                  options={{
+                    strings: [profile?.role || "Developer", "Learner", "Teacher"],
+                    autoStart: true,
+                    loop: true,
+                  }}
+                />
           </h2>
 
           <p className="text-lg md:text-xl text-slate-600 max-w-xl mb-10 leading-relaxed">
