@@ -66,13 +66,13 @@ export default function Footer() {
             )}
           </div>
         )}
-/*
+{/*
         <div className="flex items-center text-xs text-slate-400 font-mono mb-4 tracking-wider select-none">
           <span>BUILT WITH</span>
           <Heart className="h-3 w-3 mx-2 text-teal-500 fill-teal-100" />
           <span>MERN STACK • TAILWIND CSS</span>
         </div>
-*/
+*/}
         <p className="text-slate-500 text-sm font-medium text-center tracking-wide">
           © {currentYear} {profile.name}. All rights reserved.
         </p>
