@@ -117,7 +117,7 @@ export default function Hero() {
                 <img
                   src={profile.profilePicture}
                   alt={profile?.name || "Profile"}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover  object-top"
                 />
               ) : (
                 <span className="text-slate-400 font-mono text-lg">
