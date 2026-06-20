@@ -4,13 +4,13 @@
 @theme {
   --color-surface: #ffffff;
   --color-surface-muted: #f8fafc;
-  --color-surface-subtle: #f1f5f9;
+  --color-surface-subtle: #eef2f7;
   --color-ink: #0f172a;
   --color-ink-muted: #475569;
   --color-ink-subtle: #64748b;
-  --color-accent: #0d9488;
-  --color-accent-light: #14b8a6;
-  --color-accent-soft: #ccfbf1;
+  --color-accent: #1e3a8a;
+  --color-accent-light: #2563eb;
+  --color-accent-soft: #dbeafe;
   --color-border: #e2e8f0;
   --color-border-strong: #cbd5e1;
 
@@ -49,8 +49,8 @@ html {
   body {
     @apply bg-slate-50 text-slate-600 antialiased;
     background-image:
-      radial-gradient(circle at 0% 0%, rgba(20, 184, 166, 0.06), transparent 42%),
-      radial-gradient(circle at 100% 0%, rgba(59, 130, 246, 0.05), transparent 38%);
+      radial-gradient(circle at 0% 0%, rgba(37, 99, 235, 0.06), transparent 42%),
+      radial-gradient(circle at 100% 0%, rgba(30, 58, 138, 0.05), transparent 38%);
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -73,7 +73,7 @@ html {
 
 @layer components {
   .site-shell {
-    @apply min-h-screen bg-slate-50 text-slate-600 selection:bg-teal-200 selection:text-teal-900;
+    @apply min-h-screen bg-slate-50 text-slate-600 selection:bg-blue-200 selection:text-blue-900;
   }
 
   .section-block {
@@ -93,7 +93,7 @@ html {
   }
 
   .section-number {
-    @apply text-teal-600 font-mono text-xl md:text-2xl mr-3;
+    @apply text-blue-700 font-mono text-xl md:text-2xl mr-3;
   }
 
   .section-divider {
@@ -105,27 +105,27 @@ html {
   }
 
   .surface-card-interactive {
-    @apply bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md hover:border-teal-200 hover:-translate-y-0.5 transition-all duration-300;
+    @apply bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md hover:border-blue-200 hover:-translate-y-0.5 transition-all duration-300;
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center px-8 py-3.5 bg-teal-600 text-white font-semibold rounded-xl hover:bg-teal-700 transition-all duration-300 hover:-translate-y-0.5 shadow-md shadow-teal-600/20;
+    @apply inline-flex items-center justify-center px-8 py-3.5 bg-blue-800 text-white font-semibold rounded-xl hover:bg-blue-900 transition-all duration-300 hover:-translate-y-0.5 shadow-md shadow-blue-800/20;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-8 py-3.5 bg-white text-slate-700 font-semibold rounded-xl border border-slate-200 hover:border-teal-300 hover:text-teal-700 transition-all duration-300 hover:-translate-y-0.5 shadow-sm;
+    @apply inline-flex items-center justify-center px-8 py-3.5 bg-white text-slate-700 font-semibold rounded-xl border border-slate-200 hover:border-blue-300 hover:text-blue-800 transition-all duration-300 hover:-translate-y-0.5 shadow-sm;
   }
 
   .badge-accent {
-    @apply inline-flex items-center px-3 py-1 rounded-lg text-xs font-semibold uppercase tracking-wide bg-teal-50 text-teal-700 border border-teal-100;
+    @apply inline-flex items-center px-3 py-1 rounded-lg text-xs font-semibold uppercase tracking-wide bg-blue-50 text-blue-800 border border-blue-100;
   }
 
   .input-field {
-    @apply w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-teal-500/20 focus:border-teal-400 focus:outline-none text-sm transition-all shadow-sm;
+    @apply w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-400 focus:outline-none text-sm transition-all shadow-sm;
   }
 
   .loading-spinner {
-    @apply w-8 h-8 border-4 border-teal-600 border-t-transparent rounded-full animate-spin;
+    @apply w-8 h-8 border-4 border-blue-800 border-t-transparent rounded-full animate-spin;
   }
 
   .page-nav {
@@ -133,7 +133,7 @@ html {
   }
 
   .prose-article {
-    @apply prose prose-slate prose-lg md:prose-xl prose-a:text-teal-600 hover:prose-a:text-teal-700 prose-headings:text-slate-900 prose-img:rounded-2xl max-w-none;
+    @apply prose prose-slate prose-lg md:prose-xl prose-a:text-blue-700 hover:prose-a:text-blue-800 prose-headings:text-slate-900 prose-img:rounded-2xl max-w-none;
   }
 }
 
@@ -148,7 +148,7 @@ html {
 
   .hero-gradient {
     background:
-      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(20, 184, 166, 0.12), transparent),
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(30, 58, 138, 0.12), transparent),
       linear-gradient(to bottom, #ffffff 0%, #f8fafc 100%);
   }
 
