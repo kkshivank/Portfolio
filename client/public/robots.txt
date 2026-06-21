@@ -6,4 +6,4 @@ Disallow: /admin/
 Disallow: /admin/login
 Disallow: /admin/dashboard
 
-Sitemap: https://shivanklavania.in/sitemap.xml
+Sitemap: https://www.shivanklavania.in/sitemap.xml
