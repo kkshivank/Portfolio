@@ -4,6 +4,7 @@ import { ArrowLeft, Calendar, Hash, Loader2, AlertCircle } from "lucide-react";
 import api from "../../api/axiosinstance";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { Helmet } from "react-helmet-async";
 
 export default function BlogDetail() {
   const { id } = useParams();
@@ -67,76 +68,68 @@ export default function BlogDetail() {
 
   return (
     <div className="site-shell pb-32">
-      <nav className="page-nav">
-        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link
-            to="/blogs"
-            className="flex items-center px-3 py-2 -ml-3 text-sm font-semibold text-slate-600 hover:text-teal-700 hover:bg-teal-50 rounded-lg transition-all group"
-          >
-            <ArrowLeft className="h-4 w-4 mr-2 transform group-hover:-translate-x-1 transition-transform" />
-            Back to Articles
-          </Link>
-        </div>
-      </nav>
+      <Helmet>
 
-      <main className="pt-10 md:pt-16">
-        <article className="max-w-4xl mx-auto px-6 lg:px-8">
-          <header className="mb-12">
-            <div className="flex flex-wrap items-center gap-3 mb-8">
-              <div className="flex items-center text-sm font-medium text-teal-700 bg-teal-50 px-3 py-1.5 rounded-lg border border-teal-100">
-                <Calendar className="h-4 w-4 mr-2" />
-                {formatDate(blog.createdAt)}
-              </div>
+  <title>
+    {blog?.title
+      ? `${blog.title} | Shivank Lavania`
+      : "Blog | Shivank Lavania"}
+  </title>
 
-              {blog.tags && blog.tags.map((tag, idx) => (
-                <span
-                  key={idx}
-                  className="flex items-center px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-600 text-xs font-mono tracking-wide uppercase"
-                >
-                  <Hash className="h-3 w-3 mr-1 text-slate-400" />
-                  {tag}
-                </span>
-              ))}
-            </div>
+  <meta
+    name="description"
+    content={
+      blog?.summary ||
+      "Technical blogs by Shivank Lavania on Salesforce, AI, React, Cloud Computing and Software Engineering."
+    }
+  />
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight mb-8">
-              {blog.title}
-            </h1>
+  <meta
+    name="keywords"
+    content={
+      blog?.tags?.join(", ") ||
+      "Salesforce, React, AI, Cloud Computing, Software Engineering"
+    }
+  />
 
-            {blog.thumbnail && (
-              <div className="w-full h-[300px] md:h-[450px] rounded-3xl overflow-hidden bg-slate-100 border border-slate-200 mb-12 shadow-lg">
-                <img
-                  src={blog.thumbnail}
-                  alt={blog.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            )}
+  <meta
+    property="og:title"
+    content={
+      blog?.title || "Shivank Lavania Blog"
+    }
+  />
 
-            {blog.summary && (
-              <div className="text-xl md:text-2xl font-medium text-slate-600 leading-relaxed border-l-4 border-teal-500 pl-6 mb-12 bg-teal-50/50 py-4 rounded-r-xl">
-                {blog.summary}
-              </div>
-            )}
-          </header>
+  <meta
+    property="og:description"
+    content={
+      blog?.summary ||
+      "Technical blog by Shivank Lavania"
+    }
+  />
 
-          <div className="prose-article">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {blog.content}
-            </ReactMarkdown>
-          </div>
+  <meta
+    property="og:type"
+    content="article"
+  />
 
-          <div className="mt-20 pt-10 border-t border-slate-200 flex justify-center">
-            <Link
-              to="/blogs"
-              className="inline-flex items-center px-8 py-4 bg-white border border-slate-200 hover:border-teal-300 hover:bg-teal-50 text-slate-700 rounded-xl font-semibold transition-all shadow-sm"
-            >
-              <ArrowLeft className="h-5 w-5 mr-3 text-teal-600" />
-              Read More Articles
-            </Link>
-          </div>
-        </article>
-      </main>
+  <meta
+    property="og:url"
+    content={`https://www.shivanklavania.in/blogs/${id}`}
+  />
+
+  {blog?.thumbnail && (
+    <meta
+      property="og:image"
+      content={blog.thumbnail}
+    />
+  )}
+
+  <link
+    rel="canonical"
+    href={`https://www.shivanklavania.in/blogs/${id}`}
+  />
+
+</Helmet>
     </div>
   );
 }
