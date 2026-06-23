@@ -15,6 +15,27 @@ const Contact = lazy(() => import("../../components/public/Contact"));
 const Footer = lazy(() => import("../../components/public/Footer"));
 
 export default function Home() {
+  const personSchema = {
+    "@context": "https://schema.org",
+
+    "@type": "Person",
+
+    name: "Shivank Lavania",
+
+    url: "https://www.shivanklavania.in",
+
+    image: "https://www.shivanklavania.in/portfolio.png",
+
+    jobTitle: "Assistant Professor and Salesforce Developer",
+
+    description:
+      "Assistant Professor, Salesforce Developer, Trainer and Researcher based in Jaipur, India.",
+
+    sameAs: [
+      "https://www.linkedin.com/in/kkshivank696/"
+    ]
+  };
+
   return (
     <div className="site-shell">
 
@@ -34,32 +55,46 @@ export default function Home() {
           content="Shivank Lavania, Salesforce Developer, Assistant Professor, Researcher, React Developer, Jaipur"
         />
 
+        <meta
+          name="author"
+          content="Shivank Lavania"
+        />
+
         <link
           rel="canonical"
           href="https://www.shivanklavania.in/"
         />
-        <script type="application/ld+json">
-  {JSON.stringify({
-    "@context": "https://schema.org",
 
-    "@type": "Person",
+        <meta
+          property="og:title"
+          content="Shivank Lavania | Assistant Professor | Salesforce Developer"
+        />
 
-    name: "Shivank Lavania",
+        <meta
+          property="og:description"
+          content="Official portfolio of Shivank Lavania."
+        />
 
-    url: "https://www.shivanklavania.in",
+        <meta
+          property="og:type"
+          content="website"
+        />
 
-    image: "https://www.shivanklavania.in/portfolio.png",
+        <meta
+          property="og:url"
+          content="https://www.shivanklavania.in/"
+        />
 
-    jobTitle: "Assistant Professor and Salesforce Developer",
+        <meta
+          property="og:image"
+          content="https://www.shivanklavania.in/portfolio.png"
+        />
 
-    description:
-      "Assistant Professor, Salesforce Developer, Trainer and Researcher based in Jaipur, India.",
-
-    sameAs: [
-      "https://www.linkedin.com/in/kkshivank696/"
-    ]
-  })}
-</script>
+        <script
+          type="application/ld+json"
+        >
+          {JSON.stringify(personSchema)}
+        </script>
 
       </Helmet>
 
@@ -96,7 +131,7 @@ export default function Home() {
         </Suspense>
 
       </main>
-          
+
     </div>
   );
 }
