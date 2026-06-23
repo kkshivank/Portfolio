@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { ArrowLeft, PenTool, Hash, Calendar, BookText, ArrowRight, Image as ImageIcon } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../api/axiosinstance";
+import { Helmet } from "react-helmet-async";
 
 export default function AllBlogs() {
   const [blogs, setBlogs] = useState([]);
@@ -40,6 +41,50 @@ export default function AllBlogs() {
 
   return (
     <div className="site-shell pb-24">
+
+      <Helmet>
+
+  <title>
+    Technical Blogs | Shivank Lavania
+  </title>
+
+  <meta
+    name="description"
+    content="Technical blogs by Shivank Lavania covering Salesforce, React, Full Stack Development, AI, Cloud Computing and Software Engineering."
+  />
+
+  <meta
+    name="keywords"
+    content="Shivank Lavania Blogs, Salesforce Blogs, React Blogs, AI Blogs, Full Stack Development, Cloud Computing"
+  />
+
+  <meta
+    property="og:title"
+    content="Technical Blogs | Shivank Lavania"
+  />
+
+  <meta
+    property="og:description"
+    content="Technical articles and tutorials by Shivank Lavania."
+  />
+
+  <meta
+    property="og:type"
+    content="website"
+  />
+
+  <meta
+    property="og:url"
+    content="https://www.shivanklavania.in/blogs"
+  />
+
+  <link
+    rel="canonical"
+    href="https://www.shivanklavania.in/blogs"
+  />
+
+</Helmet>
+
       <nav className="page-nav">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
