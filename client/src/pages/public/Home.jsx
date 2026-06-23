@@ -38,6 +38,28 @@ export default function Home() {
           rel="canonical"
           href="https://www.shivanklavania.in/"
         />
+        <script type="application/ld+json">
+  {JSON.stringify({
+    "@context": "https://schema.org",
+
+    "@type": "Person",
+
+    name: "Shivank Lavania",
+
+    url: "https://www.shivanklavania.in",
+
+    image: "https://www.shivanklavania.in/portfolio.png",
+
+    jobTitle: "Assistant Professor and Salesforce Developer",
+
+    description:
+      "Assistant Professor, Salesforce Developer, Trainer and Researcher based in Jaipur, India.",
+
+    sameAs: [
+      "https://www.linkedin.com/in/kkshivank696/"
+    ]
+  })}
+</script>
 
       </Helmet>
 
