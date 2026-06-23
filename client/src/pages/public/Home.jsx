@@ -39,7 +39,7 @@ export default function Home() {
           href="https://www.shivanklavania.in/"
         />
 
-      
+      </Helmet>
 
       <Navbar />
 
@@ -74,7 +74,7 @@ export default function Home() {
         </Suspense>
 
       </main>
-          </Helmet>
+          
     </div>
   );
 }
