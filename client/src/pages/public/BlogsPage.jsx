@@ -15,7 +15,11 @@ export default function AllBlogs() {
     const fetchBlogs = async () => {
       try {
         const response = await api.get("/blogs");
-        setBlogs(response.data || []);
+        // Sort ascending — oldest blog first so visitors read in sequence
+        const sorted = [...(response.data || [])].sort(
+          (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+        );
+        setBlogs(sorted);
       } catch (error) {
         console.error("Failed to fetch blogs");
       } finally {
@@ -26,8 +30,8 @@ export default function AllBlogs() {
   }, []);
 
   const totalBlogs = blogs.length;
-  const latestYear = blogs.length > 0 && blogs[0].createdAt
-    ? new Date(blogs[0].createdAt).getFullYear()
+  const latestYear = blogs.length > 0
+    ? new Date(blogs[blogs.length - 1].createdAt).getFullYear()
     : new Date().getFullYear();
 
   const formatDate = (dateString) => {
@@ -43,47 +47,15 @@ export default function AllBlogs() {
     <div className="site-shell pb-24">
 
       <Helmet>
-
-  <title>
-    Technical Blogs | Shivank Lavania
-  </title>
-
-  <meta
-    name="description"
-    content="Technical blogs by Shivank Lavania covering Salesforce, React, Full Stack Development, AI, Cloud Computing and Software Engineering."
-  />
-
-  <meta
-    name="keywords"
-    content="Shivank Lavania Blogs, Salesforce Blogs, React Blogs, AI Blogs, Full Stack Development, Cloud Computing"
-  />
-
-  <meta
-    property="og:title"
-    content="Technical Blogs | Shivank Lavania"
-  />
-
-  <meta
-    property="og:description"
-    content="Technical articles and tutorials by Shivank Lavania."
-  />
-
-  <meta
-    property="og:type"
-    content="website"
-  />
-
-  <meta
-    property="og:url"
-    content="https://www.shivanklavania.in/blogs"
-  />
-
-  <link
-    rel="canonical"
-    href="https://www.shivanklavania.in/blogs"
-  />
-
-</Helmet>
+        <title>Technical Blogs | Shivank Lavania</title>
+        <meta name="description" content="Technical blogs by Shivank Lavania covering Salesforce, React, Full Stack Development, AI, Cloud Computing and Software Engineering." />
+        <meta name="keywords" content="Shivank Lavania Blogs, Salesforce Blogs, React Blogs, AI Blogs, Full Stack Development, Cloud Computing" />
+        <meta property="og:title" content="Technical Blogs | Shivank Lavania" />
+        <meta property="og:description" content="Technical articles and tutorials by Shivank Lavania." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.shivanklavania.in/blogs" />
+        <link rel="canonical" href="https://www.shivanklavania.in/blogs" />
+      </Helmet>
 
       <nav className="page-nav">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -94,7 +66,6 @@ export default function AllBlogs() {
             <ArrowLeft className="h-4 w-4 mr-2 transform group-hover:-translate-x-1 transition-transform" />
             Back to Home
           </Link>
-
           <div className="hidden sm:flex items-center gap-3">
             <span className="h-4 w-px bg-slate-200"></span>
             <span className="text-sm font-mono text-teal-700 flex items-center font-semibold">
@@ -158,7 +129,7 @@ export default function AllBlogs() {
                 <p className="text-lg font-medium">No articles published yet.</p>
               </div>
             ) : (
-              blogs.map((blog) => (
+              blogs.map((blog, index) => (
                 <article
                   key={blog._id}
                   onClick={() => navigate(`/blogs/${blog._id}`)}
@@ -176,6 +147,10 @@ export default function AllBlogs() {
                         <ImageIcon className="h-12 w-12 opacity-40" />
                       </div>
                     )}
+                    {/* Series number badge */}
+                    <div className="absolute top-3 left-3 bg-slate-900/80 text-teal-400 text-xs font-bold px-2.5 py-1 rounded-lg font-mono">
+                      #{index + 1}
+                    </div>
                   </div>
 
                   <div className="w-full md:w-3/5 lg:w-2/3 flex flex-col h-full py-2">

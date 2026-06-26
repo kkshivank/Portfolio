@@ -14,66 +14,44 @@ import cloudinary from "../config/cloudinary.js";
 // Blog controller
 
 // Get Blogs
-
 export const getAllBlogs = async (req, res) => {
   try {
     const blogs = await Blog.find().sort({ createdAt: -1 });
-
     return res.status(200).json(blogs);
   } catch (error) {
     console.log("Get Blogs Error:", error);
-
-    return res.status(500).json({
-      message: "Server Error",
-    });
+    return res.status(500).json({ message: "Server Error" });
   }
 };
 
 // Get Single Blog by ID
-
 export const getBlogById = async (req, res) => {
   try {
     const { id } = req.params;
-
     const blog = await Blog.findById(id);
-
     if (!blog) {
-      return res.status(404).json({
-        message: "Blog not found",
-      });
+      return res.status(404).json({ message: "Blog not found" });
     }
-
     return res.status(200).json(blog);
   } catch (error) {
     console.log("Get Single Blog Error:", error);
-
-    // If the ID format is invalid, Mongoose throws a CastError. 
-    // We handle it as a 404 rather than a 500 server crash.
     if (error.name === "CastError") {
-      return res.status(404).json({
-        message: "Blog not found (Invalid ID format)",
-      });
+      return res.status(404).json({ message: "Blog not found (Invalid ID format)" });
     }
-
-    return res.status(500).json({
-      message: "Server Error",
-    });
+    return res.status(500).json({ message: "Server Error" });
   }
 };
 
 // Add Blog
-
 export const addBlog = async (req, res) => {
   try {
     const { title, summary, content, tags, thumbnail } = req.body;
 
     let imageUrl = "";
-
     if (thumbnail) {
       const uploadedImage = await cloudinary.uploader.upload(thumbnail, {
         folder: "blog_thumbnails",
       });
-
       imageUrl = uploadedImage.secure_url;
     }
 
@@ -91,39 +69,64 @@ export const addBlog = async (req, res) => {
     });
   } catch (error) {
     console.log("Add Blog Error:", error);
-    return res.status(500).json({
-      message: "Server Error",
+    return res.status(500).json({ message: "Server Error" });
+  }
+};
+
+// Update Blog
+export const updateBlog = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, summary, content, tags, thumbnail } = req.body;
+
+    const blog = await Blog.findById(id);
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+
+    let imageUrl = blog.thumbnail; // keep existing image by default
+
+    // If a new base64 image is sent, upload it to Cloudinary
+    if (thumbnail && thumbnail.startsWith("data:")) {
+      const uploadedImage = await cloudinary.uploader.upload(thumbnail, {
+        folder: "blog_thumbnails",
+      });
+      imageUrl = uploadedImage.secure_url;
+    } else if (thumbnail && thumbnail.startsWith("http")) {
+      // Already a Cloudinary URL — no re-upload needed
+      imageUrl = thumbnail;
+    }
+
+    const updatedBlog = await Blog.findByIdAndUpdate(
+      id,
+      { title, summary, content, tags, thumbnail: imageUrl },
+      { new: true }
+    );
+
+    return res.status(200).json({
+      message: "Blog updated successfully",
+      blog: updatedBlog,
     });
+  } catch (error) {
+    console.log("Update Blog Error:", error);
+    if (error.name === "CastError") {
+      return res.status(404).json({ message: "Blog not found (Invalid ID format)" });
+    }
+    return res.status(500).json({ message: "Server Error" });
   }
 };
 
 // Delete Blog
-
 export const deleteBlog = async (req, res) => {
   try {
     const { id } = req.params;
-
     const blog = await Blog.findByIdAndDelete(id);
-
     if (!blog) {
-      return res.status(404).json({
-        message: "Blog not found",
-      });
+      return res.status(404).json({ message: "Blog not found" });
     }
-
-    return res.status(200).json({
-      message: "Blog deleted successfully",
-    });
+    return res.status(200).json({ message: "Blog deleted successfully" });
   } catch (error) {
     console.log("Delete Blog Error:", error);
-
-    return res.status(500).json({
-      message: "Server Error",
-    });
+    return res.status(500).json({ message: "Server Error" });
   }
 };
-
-
-
-
-
