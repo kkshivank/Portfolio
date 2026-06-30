@@ -14,31 +14,17 @@ import {
 export const getAllResearchPapers = async (req, res) => {
   try {
     const researchPapers = await ResearchPaper.find().sort({ createdAt: -1 });
-
-    return res
-
-      .status(200)
-
-      .json(researchPapers);
+    return res.status(200).json(researchPapers);
   } catch (error) {
-    console.log(
-      "Get Research Papers Error:",
-
-      error,
-    );
-
-    return res.status(500).json({
-      message: "Server Error",
-    });
+    console.log("Get Research Papers Error:", error);
+    return res.status(500).json({ message: "Server Error" });
   }
 };
 
 // Add Research Paper
-
 export const addResearchPaper = async (req, res) => {
   try {
-    const { title, authors, venue, year, summary, pdfLink, keywords } =
-      req.body;
+    const { title, authors, venue, year, summary, pdfLink, keywords } = req.body;
 
     const researchPaper = await ResearchPaper.create({
       title,
@@ -56,35 +42,50 @@ export const addResearchPaper = async (req, res) => {
     });
   } catch (error) {
     console.log("Add Research Paper Error:", error);
+    return res.status(500).json({ message: "Server Error" });
+  }
+};
 
-    return res.status(500).json({
-      message: "Server Error",
+// Update Research Paper
+export const updateResearchPaper = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, authors, venue, year, summary, pdfLink, keywords } = req.body;
+
+    const researchPaper = await ResearchPaper.findByIdAndUpdate(
+      id,
+      { title, authors, venue, year, summary, pdfLink, keywords },
+      { new: true }
+    );
+
+    if (!researchPaper) {
+      return res.status(404).json({ message: "Research paper not found" });
+    }
+
+    return res.status(200).json({
+      message: "Research paper updated successfully",
+      researchPaper,
     });
+  } catch (error) {
+    console.log("Update Research Paper Error:", error);
+    if (error.name === "CastError") {
+      return res.status(404).json({ message: "Research paper not found (Invalid ID format)" });
+    }
+    return res.status(500).json({ message: "Server Error" });
   }
 };
 
 // Delete Research Paper
-
 export const deleteResearchPaper = async (req, res) => {
   try {
     const { id } = req.params;
-
     const researchPaper = await ResearchPaper.findByIdAndDelete(id);
-
     if (!researchPaper) {
-      return res.status(404).json({
-        message: "Research paper not found",
-      });
+      return res.status(404).json({ message: "Research paper not found" });
     }
-
-    return res.status(200).json({
-      message: "Research paper deleted successfully",
-    });
+    return res.status(200).json({ message: "Research paper deleted successfully" });
   } catch (error) {
     console.log("Delete Research Paper Error:", error);
-
-    return res.status(500).json({
-      message: "Server Error",
-    });
+    return res.status(500).json({ message: "Server Error" });
   }
 };

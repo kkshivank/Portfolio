@@ -5,11 +5,11 @@ import verifyToken from "../middleware/verifyToken.js";
 import { adminLogin, changePassword, logout, addAdmin } from "../controllers/auth.controller.js";
 import { getProfile, editProfile } from "../controllers/profile.controller.js";
 import { getAllSkills, addSkill, updateSkill, deleteSkill } from "../controllers/skill.controller.js";
-import { getAllProjects, addProject, deleteProject } from "../controllers/project.controller.js";
-import { getAllExperiences, addExperience, deleteExperience } from "../controllers/experience.controller.js";
-import { getAllEducation, addEducation, deleteEducation } from "../controllers/education.controller.js";
+import { getAllProjects, addProject, updateProject, deleteProject } from "../controllers/project.controller.js";
+import { getAllExperiences, addExperience, updateExperience, deleteExperience } from "../controllers/experience.controller.js";
+import { getAllEducation, addEducation, updateEducation, deleteEducation } from "../controllers/education.controller.js";
 import { getAllBlogs, addBlog, updateBlog, deleteBlog, getBlogById } from "../controllers/blog.controller.js";
-import { getAllResearchPapers, addResearchPaper, deleteResearchPaper } from "../controllers/research.controller.js";
+import { getAllResearchPapers, addResearchPaper, updateResearchPaper, deleteResearchPaper } from "../controllers/research.controller.js";
 import { getAllMessages, addMessage } from "../controllers/message.controller.js";
 
 /* =========================
@@ -31,7 +31,7 @@ router.put("/profile", verifyToken, editProfile);
 ========================= */
 router.get("/skills", getAllSkills);
 router.post("/skills", verifyToken, addSkill);
-router.put("/skills/:id", verifyToken, updateSkill);   // Edit skill
+router.put("/skills/:id", verifyToken, updateSkill);
 router.delete("/skills/:id", verifyToken, deleteSkill);
 
 /* =========================
@@ -39,6 +39,7 @@ router.delete("/skills/:id", verifyToken, deleteSkill);
 ========================= */
 router.get("/projects", getAllProjects);
 router.post("/projects", verifyToken, addProject);
+router.put("/projects/:id", verifyToken, updateProject);
 router.delete("/projects/:id", verifyToken, deleteProject);
 
 /* =========================
@@ -46,6 +47,7 @@ router.delete("/projects/:id", verifyToken, deleteProject);
 ========================= */
 router.get("/experiences", getAllExperiences);
 router.post("/experiences", verifyToken, addExperience);
+router.put("/experiences/:id", verifyToken, updateExperience);
 router.delete("/experiences/:id", verifyToken, deleteExperience);
 
 /* =========================
@@ -53,6 +55,7 @@ router.delete("/experiences/:id", verifyToken, deleteExperience);
 ========================= */
 router.get("/education", getAllEducation);
 router.post("/education", verifyToken, addEducation);
+router.put("/education/:id", verifyToken, updateEducation);
 router.delete("/education/:id", verifyToken, deleteEducation);
 
 /* =========================
@@ -61,7 +64,7 @@ router.delete("/education/:id", verifyToken, deleteEducation);
 router.get("/blogs", getAllBlogs);
 router.get("/blogs/:id", getBlogById);
 router.post("/blogs", verifyToken, addBlog);
-router.put("/blogs/:id", verifyToken, updateBlog);   // Edit blog
+router.put("/blogs/:id", verifyToken, updateBlog);
 router.delete("/blogs/:id", verifyToken, deleteBlog);
 
 /* =========================
@@ -69,6 +72,7 @@ router.delete("/blogs/:id", verifyToken, deleteBlog);
 ========================= */
 router.get("/research-papers", getAllResearchPapers);
 router.post("/research-papers", verifyToken, addResearchPaper);
+router.put("/research-papers/:id", verifyToken, updateResearchPaper);
 router.delete("/research-papers/:id", verifyToken, deleteResearchPaper);
 
 /* =========================
