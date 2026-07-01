@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 
-
 /* =========================
    Admin Schema
 ========================= */
@@ -63,10 +62,7 @@ const profileSchema = new mongoose.Schema(
   }
 );
 
-export const Profile = mongoose.model(
-  "Profile",
-  profileSchema
-);
+export const Profile = mongoose.model("Profile", profileSchema);
 
 /* =========================
    Skill Schema
@@ -80,7 +76,6 @@ const skillSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
   },
   {
     timestamps: true,
@@ -118,10 +113,7 @@ const projectSchema = new mongoose.Schema(
   }
 );
 
-export const Project = mongoose.model(
-  "Project",
-  projectSchema
-);
+export const Project = mongoose.model("Project", projectSchema);
 
 /* =========================
    Experience Schema
@@ -148,10 +140,7 @@ const experienceSchema = new mongoose.Schema(
   }
 );
 
-export const Experience = mongoose.model(
-  "Experience",
-  experienceSchema
-);
+export const Experience = mongoose.model("Experience", experienceSchema);
 
 /* =========================
    Education Schema
@@ -178,13 +167,10 @@ const educationSchema = new mongoose.Schema(
   }
 );
 
-export const Education = mongoose.model(
-  "Education",
-  educationSchema
-);
+export const Education = mongoose.model("Education", educationSchema);
 
 /* =========================
-   Blog Schema
+   Blog Schema (UPDATED - category field added)
 ========================= */
 
 const blogSchema = new mongoose.Schema(
@@ -203,6 +189,13 @@ const blogSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
+    category: {
+      type: String,
+      required: true,
+      default: "General",
+    },
+
     thumbnail: String,
     tags: [String],
   },
@@ -241,10 +234,7 @@ const researchPaperSchema = new mongoose.Schema(
   }
 );
 
-export const ResearchPaper = mongoose.model(
-  "ResearchPaper",
-  researchPaperSchema
-);
+export const ResearchPaper = mongoose.model("ResearchPaper", researchPaperSchema);
 
 /* =========================
    Message Schema
@@ -277,7 +267,4 @@ const messageSchema = new mongoose.Schema(
   }
 );
 
-export const Message = mongoose.model(
-  "Message",
-  messageSchema
-);
+export const Message = mongoose.model("Message", messageSchema);

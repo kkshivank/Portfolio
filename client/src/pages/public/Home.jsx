@@ -104,30 +104,36 @@ export default function Home() {
 
         <Hero />
 
-        <Suspense
-          fallback={
-            <div className="min-h-[20vh] flex items-center justify-center bg-slate-50">
-              <div className="loading-spinner"></div>
-            </div>
-          }
-        >
-
+        <Suspense fallback={<div className="min-h-[20vh] flex items-center justify-center bg-slate-50"><div className="loading-spinner"></div></div>}>
           <About />
+        </Suspense>
 
+        <Suspense fallback={<div className="min-h-[20vh] flex items-center justify-center bg-slate-50"><div className="loading-spinner"></div></div>}>
           <Skills />
+        </Suspense>
 
+        <Suspense fallback={<div className="min-h-[20vh] flex items-center justify-center bg-slate-50"><div className="loading-spinner"></div></div>}>
           <Projects />
+        </Suspense>
 
+        <Suspense fallback={<div className="min-h-[20vh] flex items-center justify-center bg-slate-50"><div className="loading-spinner"></div></div>}>
           <ExperienceEducation />
+        </Suspense>
 
+        <Suspense fallback={<div className="min-h-[20vh] flex items-center justify-center bg-slate-50"><div className="loading-spinner"></div></div>}>
           <Research />
+        </Suspense>
 
+        <Suspense fallback={<div className="min-h-[20vh] flex items-center justify-center bg-slate-50"><div className="loading-spinner"></div></div>}>
           <Blogs />
+        </Suspense>
 
+        <Suspense fallback={<div className="min-h-[20vh] flex items-center justify-center bg-slate-50"><div className="loading-spinner"></div></div>}>
           <Contact />
+        </Suspense>
 
+        <Suspense fallback={<div className="min-h-[20vh] flex items-center justify-center bg-slate-50"><div className="loading-spinner"></div></div>}>
           <Footer />
-
         </Suspense>
 
       </main>

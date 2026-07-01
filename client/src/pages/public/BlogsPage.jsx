@@ -47,11 +47,11 @@ export default function AllBlogs() {
     <div className="site-shell pb-24">
 
       <Helmet>
-        <title>Technical Blogs | Shivank Lavania</title>
-        <meta name="description" content="Technical blogs by Shivank Lavania covering Salesforce, React, Full Stack Development, AI, Cloud Computing and Software Engineering." />
+        <title>Blogs | Shivank Lavania - Salesforce & React Articles</title>
+        <meta name="description" content="Read technical blogs on Salesforce, React, Cloud and DevOps by Shivank Lavania." />
         <meta name="keywords" content="Shivank Lavania Blogs, Salesforce Blogs, React Blogs, AI Blogs, Full Stack Development, Cloud Computing" />
-        <meta property="og:title" content="Technical Blogs | Shivank Lavania" />
-        <meta property="og:description" content="Technical articles and tutorials by Shivank Lavania." />
+        <meta property="og:title" content="Blogs | Shivank Lavania - Salesforce & React Articles" />
+        <meta property="og:description" content="Read technical blogs on Salesforce, React, Cloud and DevOps by Shivank Lavania." />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://www.shivanklavania.in/blogs" />
         <link rel="canonical" href="https://www.shivanklavania.in/blogs" />
@@ -139,8 +139,9 @@ export default function AllBlogs() {
                     {blog.thumbnail ? (
                       <img
                         src={blog.thumbnail}
-                        alt={blog.title}
+                        alt={`${blog.title} - blog thumbnail`}
                         className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                        loading="lazy"
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-slate-400 bg-gradient-to-br from-slate-50 to-teal-50">

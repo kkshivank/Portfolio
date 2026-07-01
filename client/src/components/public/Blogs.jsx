@@ -68,8 +68,9 @@ export default function Blogs() {
                   {blog.thumbnail ? (
                     <img
                       src={blog.thumbnail}
-                      alt={blog.title}
+                      alt={`${blog.title} - blog thumbnail`}
                       className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-slate-400 bg-gradient-to-br from-slate-50 to-teal-50">

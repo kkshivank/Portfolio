@@ -11,10 +11,34 @@ export default function Hero() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
+        // Check localStorage cache first
+        const cachedProfile = localStorage.getItem('profileCache');
+        const cacheTimestamp = localStorage.getItem('profileCacheTimestamp');
+        const CACHE_DURATION = 60 * 60 * 1000; // 1 hour in milliseconds
+
+        if (cachedProfile && cacheTimestamp) {
+          const isCacheValid = Date.now() - parseInt(cacheTimestamp) < CACHE_DURATION;
+          if (isCacheValid) {
+            setProfile(JSON.parse(cachedProfile));
+            setIsLoading(false);
+            return;
+          }
+        }
+
+        // Fetch from API if cache is invalid or doesn't exist
         const response = await api.get("/profile");
         setProfile(response.data);
+        
+        // Cache the response
+        localStorage.setItem('profileCache', JSON.stringify(response.data));
+        localStorage.setItem('profileCacheTimestamp', Date.now().toString());
       } catch (error) {
         console.error("Failed to fetch profile for hero section");
+        // Try to use cached data even if API fails
+        const cachedProfile = localStorage.getItem('profileCache');
+        if (cachedProfile) {
+          setProfile(JSON.parse(cachedProfile));
+        }
       } finally {
         setIsLoading(false);
       }
@@ -26,6 +50,11 @@ export default function Hero() {
     if (!bio) return "";
     const firstSentence = bio.split(".")[0];
     return firstSentence + (firstSentence.length > 0 ? "." : "");
+  };
+
+  const optimizeCloudinaryUrl = (url) => {
+    if (!url || !url.includes('cloudinary.com')) return url;
+    return url.replace('/upload/', '/upload/f_auto,q_auto,w_400,h_400,c_fill/');
   };
 
   if (isLoading) {
@@ -115,16 +144,18 @@ export default function Hero() {
         </div>
 
         <div className="flex justify-center lg:justify-end items-center order-1 lg:order-2">
-          <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96">
+          <div className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96" style={{ aspectRatio: '1/1' }}>
             <div className="absolute -inset-3 rounded-full bg-gradient-to-br from-teal-400/30 via-sky-300/20 to-teal-200/30 blur-md"></div>
             <div className="absolute inset-0 rounded-full border-4 border-white shadow-2xl shadow-teal-500/10"></div>
 
             <div className="absolute inset-2 rounded-full overflow-hidden border-4 border-white shadow-xl bg-slate-100 flex items-center justify-center ring-4 ring-teal-100">
               {profile?.profilePicture ? (
                 <img
-                  src={profile.profilePicture}
+                  src={optimizeCloudinaryUrl(profile.profilePicture)}
                   alt={profile?.name || "Profile"}
-                  className="w-full h-full object-cover  object-top"
+                  className="w-full h-full object-cover object-top"
+                  fetchPriority="high"
+                  loading="eager"
                 />
               ) : (
                 <span className="text-slate-400 font-mono text-lg">

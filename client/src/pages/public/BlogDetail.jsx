@@ -4,6 +4,7 @@ import { ArrowLeft, Calendar, Hash, Loader2, AlertCircle } from "lucide-react";
 import api from "../../api/axiosinstance";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { Helmet } from "react-helmet-async";
 
 export default function BlogDetail() {
   const { id } = useParams();
@@ -67,6 +68,16 @@ export default function BlogDetail() {
 
   return (
     <div className="site-shell pb-32">
+      <Helmet>
+        <title>{blog?.title || "Blog Article"} | Shivank Lavania</title>
+        <meta name="description" content={blog?.summary || "Read this technical article by Shivank Lavania."} />
+        <meta property="og:title" content={blog?.title || "Blog Article"} />
+        <meta property="og:description" content={blog?.summary || "Read this technical article by Shivank Lavania."} />
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={`https://www.shivanklavania.in/blogs/${id}`} />
+        {blog?.thumbnail && <meta property="og:image" content={blog.thumbnail} />}
+      </Helmet>
+
       <nav className="page-nav">
         <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
@@ -107,8 +118,9 @@ export default function BlogDetail() {
               <div className="w-full h-[300px] md:h-[450px] rounded-3xl overflow-hidden bg-slate-100 border border-slate-200 mb-12 shadow-lg">
                 <img
                   src={blog.thumbnail}
-                  alt={blog.title}
+                  alt={`${blog.title} - featured image`}
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </div>
             )}

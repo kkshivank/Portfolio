@@ -3,6 +3,7 @@ import { ArrowLeft, BookOpen, Users, Calendar, FileText, Library } from "lucide-
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import api from "../../api/axiosinstance";
+import { Helmet } from "react-helmet-async";
 
 export default function ResearchPapersPage() {
   const [papers, setPapers] = useState([]);
@@ -31,6 +32,16 @@ export default function ResearchPapersPage() {
 
   return (
     <div className="site-shell pb-24">
+      <Helmet>
+        <title>Research Papers | Shivank Lavania</title>
+        <meta name="description" content="Explore research papers by Shivank Lavania on technology, education and software development." />
+        <meta property="og:title" content="Research Papers | Shivank Lavania" />
+        <meta property="og:description" content="Explore research papers by Shivank Lavania on technology, education and software development." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.shivanklavania.in/research-papers" />
+        <link rel="canonical" href="https://www.shivanklavania.in/research-papers" />
+      </Helmet>
+
       <nav className="page-nav">
         <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link
