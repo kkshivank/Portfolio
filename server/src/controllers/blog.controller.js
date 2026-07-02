@@ -45,7 +45,7 @@ export const getBlogById = async (req, res) => {
 // Add Blog
 export const addBlog = async (req, res) => {
   try {
-    const { title, summary, content, tags, thumbnail } = req.body;
+    const { title, summary, content, category, tags, thumbnail } = req.body;
 
     let imageUrl = "";
     if (thumbnail) {
@@ -59,6 +59,7 @@ export const addBlog = async (req, res) => {
       title,
       summary,
       content,
+      category,
       tags,
       thumbnail: imageUrl,
     });
@@ -77,7 +78,7 @@ export const addBlog = async (req, res) => {
 export const updateBlog = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, summary, content, tags, thumbnail } = req.body;
+    const { title, summary, content, category, tags, thumbnail } = req.body;
 
     const blog = await Blog.findById(id);
     if (!blog) {
@@ -99,7 +100,7 @@ export const updateBlog = async (req, res) => {
 
     const updatedBlog = await Blog.findByIdAndUpdate(
       id,
-      { title, summary, content, tags, thumbnail: imageUrl },
+      { title, summary, content, category, tags, thumbnail: imageUrl },
       { new: true }
     );
 

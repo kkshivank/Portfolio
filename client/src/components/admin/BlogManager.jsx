@@ -16,6 +16,7 @@ export default function BlogManager() {
     title: "",
     summary: "",
     content: "",
+    category: "",
     tags: "",
     thumbnail: "",
   });
@@ -25,6 +26,7 @@ export default function BlogManager() {
     title: "",
     summary: "",
     content: "",
+    category: "",
     tags: "",
     thumbnail: "",
   });
@@ -94,7 +96,7 @@ export default function BlogManager() {
 
   const handleAddBlog = async (e) => {
     e.preventDefault();
-    if (!formData.title || !formData.summary || !formData.content || !formData.tags || !formData.thumbnail) {
+    if (!formData.title || !formData.summary || !formData.content || !formData.category || !formData.tags || !formData.thumbnail) {
       return toast.error("All fields are mandatory, including the cover image and tags.");
     }
     setIsAdding(true);
@@ -110,7 +112,7 @@ export default function BlogManager() {
       const response = await api.post("/blogs", payload);
       toast.success(response.data.message || "Blog published!", { id: loadingToast });
       setBlogs([response.data.blog, ...blogs]);
-      setFormData({ title: "", summary: "", content: "", tags: "", thumbnail: "" });
+      setFormData({ title: "", summary: "", content: "", category: "", tags: "", thumbnail: "" });
       setImagePreview(null);
       const fileInput = document.getElementById("thumbnail-upload");
       if (fileInput) fileInput.value = "";
@@ -143,6 +145,7 @@ export default function BlogManager() {
       title: blog.title || "",
       summary: blog.summary || "",
       content: blog.content || "",
+      category: blog.category || "",
       tags: blog.tags?.join(", ") || "",
       thumbnail: blog.thumbnail || "",
     });
@@ -151,12 +154,12 @@ export default function BlogManager() {
 
   const handleCancelEdit = () => {
     setEditingId(null);
-    setEditData({ title: "", summary: "", content: "", tags: "", thumbnail: "" });
+    setEditData({ title: "", summary: "", content: "", category: "", tags: "", thumbnail: "" });
     setEditImagePreview(null);
   };
 
   const handleUpdateBlog = async (id) => {
-    if (!editData.title || !editData.summary || !editData.content || !editData.tags || !editData.thumbnail) {
+    if (!editData.title || !editData.summary || !editData.content || !editData.category || !editData.tags || !editData.thumbnail) {
       return toast.error("All fields are mandatory.");
     }
     setIsUpdating(true);
@@ -237,6 +240,11 @@ export default function BlogManager() {
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1">Short Summary*</label>
                 <textarea name="summary" value={formData.summary} onChange={handleChange} required rows="2" className="block w-full px-3 py-2 border border-slate-600 rounded-lg bg-slate-900/50 text-slate-100 focus:ring-2 focus:ring-teal-400 focus:outline-none resize-none"></textarea>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Category*</label>
+                <input type="text" name="category" value={formData.category} onChange={handleChange} required placeholder="e.g. DevOps, Salesforce, Git, Cloud" className="block w-full px-3 py-2 border border-slate-600 rounded-lg bg-slate-900/50 text-slate-100 focus:ring-2 focus:ring-teal-400 focus:outline-none" />
               </div>
 
               <div>
@@ -324,6 +332,11 @@ export default function BlogManager() {
                     <div>
                       <label className="block text-xs font-medium text-slate-400 mb-1">Summary*</label>
                       <textarea name="summary" value={editData.summary} onChange={handleEditChange} rows="2" className="block w-full px-3 py-2 border border-slate-600 rounded-lg bg-slate-900/50 text-slate-100 focus:ring-2 focus:ring-teal-400 focus:outline-none resize-none text-sm"></textarea>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-medium text-slate-400 mb-1">Category*</label>
+                      <input type="text" name="category" value={editData.category} onChange={handleEditChange} className="block w-full px-3 py-2 border border-slate-600 rounded-lg bg-slate-900/50 text-slate-100 focus:ring-2 focus:ring-teal-400 focus:outline-none text-sm" />
                     </div>
 
                     <div>
