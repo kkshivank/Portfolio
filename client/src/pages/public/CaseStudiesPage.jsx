@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ArrowLeft, Briefcase, Building, Layers, Hash, Image as ImageIcon, Award, Target, Lightbulb, ArrowRight } from "lucide-react";
+import { ArrowLeft, Briefcase, Building, Layers, Hash, Image as ImageIcon, Award, Target, Lightbulb, ArrowRight, Tag } from "lucide-react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import api from "../../api/axiosinstance";
 import { Helmet } from "react-helmet-async";
@@ -27,10 +27,8 @@ export default function CaseStudiesPage() {
     fetchCaseStudies();
   }, []);
 
-  // Extract unique categories dynamically from case studies
   const categories = ["All", ...new Set(caseStudies.map((cs) => cs.category).filter(Boolean))];
 
-  // Handle URL query parameter for category
   useEffect(() => {
     const categoryParam = searchParams.get("category");
     if (categoryParam && categories.includes(categoryParam)) {
@@ -38,7 +36,6 @@ export default function CaseStudiesPage() {
     }
   }, [searchParams, categories]);
 
-  // Filter case studies based on active category
   const filteredCaseStudies = activeCategory === "All"
     ? caseStudies
     : caseStudies.filter((cs) => cs.category === activeCategory);
@@ -64,6 +61,25 @@ export default function CaseStudiesPage() {
 
       <main className="section-block">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
+
+          {/* Back to Home — Same as Blogs Page */}
+          <div className="flex items-center justify-between mb-6 pt-2">
+            <Link
+              to="/"
+              className="inline-flex items-center text-slate-600 hover:text-teal-600 font-medium transition-colors text-sm"
+            >
+              <ArrowLeft className="h-4 w-4 mr-1" />
+              Back to Home
+            </Link>
+            <Link
+              to="/"
+              className="inline-flex items-center text-teal-600 hover:text-teal-800 font-medium transition-colors text-sm"
+            >
+              <Tag className="h-4 w-4 mr-1" />
+              All Case Studies
+            </Link>
+          </div>
+
           {/* Header */}
           <header className="mb-16 border-b border-slate-200 pb-10">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
@@ -180,7 +196,7 @@ export default function CaseStudiesPage() {
                       </span>
                     )}
 
-                    {/* Tech Stack (first 2 + count) */}
+                    {/* Tech Stack */}
                     {caseStudy.techStack && caseStudy.techStack.length > 0 && (
                       <div className="flex flex-wrap gap-2 mb-4">
                         {caseStudy.techStack.slice(0, 2).map((tech, idx) => (
@@ -199,7 +215,7 @@ export default function CaseStudiesPage() {
                       </div>
                     )}
 
-                    {/* Read More Button */}
+                    {/* Read More */}
                     <button className="mt-auto flex items-center text-teal-700 font-semibold text-sm group-hover:text-teal-800 transition-colors">
                       Read More
                       <ArrowRight className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
