@@ -10,6 +10,7 @@ import { getAllExperiences, addExperience, updateExperience, deleteExperience } 
 import { getAllEducation, addEducation, updateEducation, deleteEducation } from "../controllers/education.controller.js";
 import { getAllBlogs, addBlog, updateBlog, deleteBlog, getBlogById } from "../controllers/blog.controller.js";
 import { getAllResearchPapers, addResearchPaper, updateResearchPaper, deleteResearchPaper } from "../controllers/research.controller.js";
+import { getAllCaseStudies, getAllCaseStudiesAdmin, addCaseStudy, updateCaseStudy, deleteCaseStudy } from "../controllers/casestudy.controller.js";
 import { getAllMessages, addMessage } from "../controllers/message.controller.js";
 
 /* =========================
@@ -66,6 +67,15 @@ router.get("/blogs/:id", getBlogById);
 router.post("/blogs", verifyToken, addBlog);
 router.put("/blogs/:id", verifyToken, updateBlog);
 router.delete("/blogs/:id", verifyToken, deleteBlog);
+
+/* =========================
+   Case Study Routes
+========================= */
+router.get("/casestudies", getAllCaseStudies);
+router.get("/casestudies/admin", verifyToken, getAllCaseStudiesAdmin);
+router.post("/casestudies", verifyToken, addCaseStudy);
+router.put("/casestudies/:id", verifyToken, updateCaseStudy);
+router.delete("/casestudies/:id", verifyToken, deleteCaseStudy);
 
 /* =========================
    Research Paper Routes

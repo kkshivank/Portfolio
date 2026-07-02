@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { 
-  User, Code2, FolderGit2, Briefcase, GraduationCap, 
-  PenTool, BookOpen, Inbox, Shield, Menu, X, LayoutDashboard 
+import {
+  User, Code2, FolderGit2, Briefcase, GraduationCap,
+  PenTool, BookOpen, Inbox, Shield, Menu, X, LayoutDashboard, Briefcase as CaseStudyIcon
 } from "lucide-react";
 
 // Import all the components we built
@@ -11,6 +11,7 @@ import ProjectManager from "../../components/admin/ProjectManager";
 import ExperienceManager from "../../components/admin/ExperienceManager";
 import EducationManager from "../../components/admin/EducationManager";
 import BlogManager from "../../components/admin/BlogManager";
+import CaseStudyManager from "../../components/admin/CaseStudyManager";
 import ResearchPaperManager from "../../components/admin/ResearchPaperManager";
 import MessageManager from "../../components/admin/MessageManager";
 import SecurityManager from "../../components/admin/SecurityManager";
@@ -23,6 +24,7 @@ const TABS = [
   { id: "experience", label: "Experience", icon: Briefcase, component: <ExperienceManager /> },
   { id: "education", label: "Education", icon: GraduationCap, component: <EducationManager /> },
   { id: "blogs", label: "Blogs", icon: PenTool, component: <BlogManager /> },
+  { id: "casestudies", label: "Case Studies", icon: CaseStudyIcon, component: <CaseStudyManager /> },
   { id: "research", label: "Research", icon: BookOpen, component: <ResearchPaperManager /> },
   { id: "messages", label: "Inbox", icon: Inbox, component: <MessageManager /> },
   { id: "security", label: "Security", icon: Shield, component: <SecurityManager /> },

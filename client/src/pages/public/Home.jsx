@@ -10,6 +10,7 @@ const ExperienceEducation = lazy(() =>
   import("../../components/public/ExperienceEducation")
 );
 const Research = lazy(() => import("../../components/public/Research"));
+const CaseStudies = lazy(() => import("../../components/public/CaseStudies"));
 const Blogs = lazy(() => import("../../components/public/Blogs"));
 const Contact = lazy(() => import("../../components/public/Contact"));
 const Footer = lazy(() => import("../../components/public/Footer"));
@@ -122,6 +123,10 @@ export default function Home() {
 
         <Suspense fallback={<div className="min-h-[20vh] flex items-center justify-center bg-slate-50"><div className="loading-spinner"></div></div>}>
           <Research />
+        </Suspense>
+
+        <Suspense fallback={<div className="min-h-[20vh] flex items-center justify-center bg-slate-50"><div className="loading-spinner"></div></div>}>
+          <CaseStudies />
         </Suspense>
 
         <Suspense fallback={<div className="min-h-[20vh] flex items-center justify-center bg-slate-50"><div className="loading-spinner"></div></div>}>

@@ -207,6 +207,55 @@ const blogSchema = new mongoose.Schema(
 export const Blog = mongoose.model("Blog", blogSchema);
 
 /* =========================
+   Case Study Schema
+========================= */
+
+const caseStudySchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    client: {
+      type: String,
+      required: true,
+    },
+    industry: {
+      type: String,
+      required: true,
+    },
+    category: {
+      type: String,
+      required: true,
+      default: "General",
+    },
+    problem: {
+      type: String,
+      required: true,
+    },
+    solution: {
+      type: String,
+      required: true,
+    },
+    result: {
+      type: String,
+      required: true,
+    },
+    techStack: [String],
+    thumbnail: String,
+    isPublished: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+export const CaseStudy = mongoose.model("CaseStudy", caseStudySchema);
+
+/* =========================
    Research Paper Schema
 ========================= */
 
