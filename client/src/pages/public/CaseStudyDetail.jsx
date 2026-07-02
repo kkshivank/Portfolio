@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ArrowLeft, Briefcase, Building, Layers, Hash, Award, Target, Lightbulb, Calendar } from "lucide-react";
+import { ArrowLeft, Briefcase, Building, Layers, Hash, Award, Target, Lightbulb, Calendar, Home } from "lucide-react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import api from "../../api/axiosinstance";
 import { Helmet } from "react-helmet-async";
@@ -50,13 +50,22 @@ export default function CaseStudyDetail() {
             <div className="text-center py-20">
               <Briefcase className="h-12 w-12 mx-auto mb-4 text-slate-400" />
               <h2 className="text-2xl font-bold text-slate-900 mb-3">Case Study Not Found</h2>
-              <Link
-                to="/case-studies"
-                className="inline-flex items-center mt-8 px-6 py-3 bg-teal-400 text-white font-semibold rounded-lg hover:bg-teal-500 transition-colors"
-              >
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Case Studies
-              </Link>
+              <div className="flex justify-center gap-4 mt-8">
+                <Link
+                  to="/case-studies"
+                  className="inline-flex items-center px-6 py-3 bg-teal-400 text-white font-semibold rounded-lg hover:bg-teal-500 transition-colors"
+                >
+                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  Back to Case Studies
+                </Link>
+                <Link
+                  to="/"
+                  className="inline-flex items-center px-6 py-3 border border-teal-400 text-teal-600 font-semibold rounded-lg hover:bg-teal-50 transition-colors"
+                >
+                  <Home className="h-4 w-4 mr-2" />
+                  Back to Home
+                </Link>
+              </div>
             </div>
           </div>
         </main>
@@ -74,8 +83,8 @@ export default function CaseStudyDetail() {
 
       <main className="section-block">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          {/* Back Button */}
-          <div className="mb-8">
+          {/* Back Buttons */}
+          <div className="mb-8 flex items-center gap-4">
             <button
               onClick={() => navigate(-1)}
               className="inline-flex items-center text-slate-600 hover:text-teal-600 font-medium transition-colors"
@@ -83,6 +92,14 @@ export default function CaseStudyDetail() {
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Case Studies
             </button>
+            <span className="text-slate-300">|</span>
+            <Link
+              to="/"
+              className="inline-flex items-center text-slate-600 hover:text-teal-600 font-medium transition-colors"
+            >
+              <Home className="h-4 w-4 mr-2" />
+              Back to Home
+            </Link>
           </div>
 
           {/* Header */}
@@ -113,13 +130,18 @@ export default function CaseStudyDetail() {
             )}
           </header>
 
-          {/* Thumbnail */}
+          {/* Thumbnail - FIXED */}
           {caseStudy.thumbnail && (
-            <div className="w-full h-[400px] rounded-2xl overflow-hidden bg-slate-100 relative mb-12">
+            <div className="w-full rounded-2xl overflow-hidden bg-slate-100 mb-12 flex items-center justify-center">
               <img
                 src={caseStudy.thumbnail}
                 alt={`${caseStudy.title} - case study featured image`}
-                className="w-full h-full object-cover"
+                style={{
+                  width: '100%',
+                  maxHeight: '500px',
+                  objectFit: 'contain',
+                  background: '#f8f8f8'
+                }}
                 loading="eager"
                 fetchPriority="high"
               />
